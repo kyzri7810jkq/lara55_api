@@ -1,0 +1,62 @@
+
+Download PostMan for APIchecking
+
+1. Create Model and migration
+
+2. Seeder
+
+	$ php artisan make:seeder ArticlesTableSeeder
+
+	go to ArticlesTableSeeder
+
+	function run()
+	{
+		factory(\App\Articles::class, 30)->create();
+	}
+
+	DatabaseSeeder
+
+	function run()
+	{
+		$this->call(ArticlestableSeeder::class);
+	}
+
+	$ php artisan make:factory ArticleFactory
+
+	ArticleFactory.php
+
+	->define(App\Article::class, function(){
+		return[
+			'title' => $faker->text(50),  //text
+			'body'  => $faker->text(100),
+		];
+	});
+
+	$ php artisan migrate
+	$ php artisan db:seed
+
+3. Controller
+
+$ php artisan make:controller ArticleController --resource
+
+4. Go to routes/api.php and add routes
+
+5. Add resource app\Http\Resources
+
+$ php artisan make:resource Article
+
+To check:
+http://localhost:8000/api/articles
+-----------------------------------------------
+
+How about if:
+
+1. Customize Resources>>Article.php
+
+function toArray(){
+	return [
+		'id' => $this->id,
+		'title' => $this->title,
+		'body'  => $this->body
+	];
+}
